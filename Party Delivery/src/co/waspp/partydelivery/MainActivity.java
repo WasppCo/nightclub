@@ -1,21 +1,17 @@
 package co.waspp.partydelivery;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -31,6 +27,12 @@ public class MainActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    
+    /**
+     * Count items in cart, and display in Android ActionBar
+     */
+    private TextView txtCount;
+    private int mCartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +80,25 @@ public class MainActivity extends Activity
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (!mNavigationDrawerFragment.isDrawerOpen()) {
+			// Only show items in the action bar relevant to this screen
+			// if the drawer is not showing. Otherwise, let the drawer
+			// decide what to show in the action bar.
+			getMenuInflater().inflate(R.menu.main, menu);
+
+			// Get TextView from the action button
+			View count = menu.findItem(R.id.action_cart).getActionView();
+			txtCount = (TextView) count.findViewById(R.id.txt_notify_count);
+			txtCount.setText(String.valueOf(mCartCount));
+
+			restoreActionBar();
+			return true;
+		}
+
+		return super.onCreateOptionsMenu(menu);
+	}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -141,6 +150,15 @@ public class MainActivity extends Activity
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+    
+    /**
+     * Change Value and display in ActionBar
+     * @param mCartCount
+     */
+    private void setCartCount(int count){
+        mCartCount = count;
+        invalidateOptionsMenu();
     }
 
 }
