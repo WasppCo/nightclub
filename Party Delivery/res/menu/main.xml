@@ -6,7 +6,7 @@
         android:id="@+id/action_cart"
         android:actionLayout="@layout/button_count_cart"
         android:enabled="true"
-        android:icon="@drawable/cart"
+        android:icon="@drawable/ic_cart"
         android:orderInCategory="100"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_cart"/>
